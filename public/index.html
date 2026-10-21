@@ -1,0 +1,42 @@
+<!doctype html>
+<!--
+  EDIT HERE. Everything you would change is in this file:
+    1. <title>, description and og:/twitter: lines just below (link previews)
+    2. The PROFILE block in <body>: photo, @handle, bio
+    3. The LINKS list: one <li> per button, top to bottom
+  Colours are at the top of style.css. Then run ./deploy.sh from the site/ folder (see README.md).
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ouroboros</title>
+  <meta name="description" content="Tinkering in the hideout. Tag me with your turrets! TikTok, Instagram and GitHub.">
+  <link rel="canonical" href="https://ourobrs.dev/">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://ourobrs.dev/">
+  <meta property="og:title" content="Ouroboros">
+  <meta property="og:description" content="Tinkering in the hideout. Tag me with your turrets! TikTok, Instagram and GitHub.">
+  <meta property="og:image" content="https://ourobrs.dev/avatar.jpg">
+  <meta name="twitter:card" content="summary">
+  <meta name="theme-color" content="#14110d">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main>
+    <!-- PROFILE -->
+    <img class="avatar" src="avatar.jpg" alt="A tower glowing green under a stormy sky, from Deadlock" width="112" height="112">
+    <h1>Ouroboros</h1>
+    <p class="bio">tinkering in the hideout<br>tag me with your turrets!</p>
+
+    <!-- LINKS: copy an <li> line to add a button (keep ping="/click": it counts taps for the admin page) -->
+    <ul class="links">
+      <li><a href="https://www.tiktok.com/@0urobrs" ping="/click">TikTok <span>@0urobrs</span></a></li>
+      <li><a href="https://www.instagram.com/0urobrs/" ping="/click">Instagram <span>@0urobrs</span></a></li>
+      <li><a href="https://github.com/Viper248" ping="/click">GitHub <span>Viper248</span></a></li>
+    </ul>
+  </main>
+  <footer>ourobrs.dev <a class="admin" href="/admin">Admin login</a></footer>
+</body>
+</html>

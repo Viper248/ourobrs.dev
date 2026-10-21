@@ -1,0 +1,26 @@
+# Runs on the ZimaBlade in /mnt/Seagate/ourobrs, like lss-photos but separate from it (deploy.sh starts it).
+# TUNNEL_TOKEN comes from a .env file next to this one, on the Blade only (see README).
+# Both images are ones the Blade already has, so nothing new is downloaded onto its eMMC.
+services:
+  site:
+    image: python:3.12-slim
+    command: python /serve.py
+    user: "65534:65534"  # nobody: reads the site, writes only data/
+    environment:
+      ADMIN_PASSWORD: "${ADMIN_PASSWORD}"  # from .env; empty turns /admin off
+    volumes:
+      - ./public:/srv:ro
+      - ./serve.py:/serve.py:ro
+      - ./data:/data  # view counts, on the Seagate
+      - /etc/localtime:/etc/localtime:ro  # count days in the Blade's time zone (US Eastern)
+    restart: unless-stopped
+
+  tunnel:  # public https://ourobrs.dev without opening router ports
+    image: cloudflare/cloudflared:latest
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: "${TUNNEL_TOKEN}"
+    logging:
+      options:
+        max-size: "1m"  # container logs live on the eMMC
+    restart: unless-stopped
