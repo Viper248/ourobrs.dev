@@ -7,7 +7,7 @@ A small Python server counts views and button taps for the admin page.
 - `public/`: the website itself (`index.html`, `style.css`, `avatar.jpg`, `favicon.svg`)
 - `serve.py`, `docker-compose.yml`: how the ZimaBlade serves it. Same idea as lss-photos, but its own folder,
   containers and tunnel, so it never touches lss-photos. `serve.py` also runs the counters and `/admin`.
-- `test_serve.py`: checks the counters and login on this PC. Run `python test_serve.py` after changing
+- `test_serve.py`: checks the counters, login and text editing on this PC. Run `python test_serve.py` after changing
   `serve.py`; it prints `ok`.
 - `deploy.sh`: copies everything to `/mnt/Seagate/ourobrs` on the Blade and restarts the site
 
@@ -17,7 +17,11 @@ Everything is in `public/index.html`:
 
 - **Links:** the `LINKS` list. Each `<li>` line is one button, top to bottom. Copy a line to add one, and
   keep its `ping="/click"`: that's what counts the taps. New buttons show up on the admin page by themselves.
-- **Handle, bio, photo:** the `PROFILE` block just above it.
+- **Name and bio:** easiest from the admin page (**Page text**, under the view counts). It's live as soon as
+  you save. The saved text lives on the Blade in `data/profile.json`, so `./deploy.sh` never undoes it, and it
+  wins over the `PROFILE` block in `index.html`. To go back to the file's text, delete `data/profile.json` on
+  the Blade and run `./deploy.sh`.
+- **Photo:** the `PROFILE` block just above the links.
 - **Link previews** (what a shared link shows in Discord, iMessage and so on): `<title>` and the
   `description` / `og:` lines at the top. Keep them in step with the handle and bio.
 - **New photo:** save it as `public/avatar.jpg`, square, about 400×400 and under 100 KB.
@@ -43,7 +47,7 @@ Headers". Or save a new photo under a new name (`avatar2.jpg`) and update both `
 
 Tap **Admin login** at the bottom of the page (or go to https://ourobrs.dev/admin) and enter the admin
 password. It shows page views and taps on each button for today, the last 7 and 30 days, and all time,
-with days in US Eastern time. You stay logged in for 30 days on that device.
+with days in US Eastern time, and lets you change the name and bio at the top of the page. You stay logged in for 30 days on that device.
 
 - **Set or change the password:** on the Blade, edit `/mnt/Seagate/ourobrs/.env`, add or change the
   `ADMIN_PASSWORD=...` line, then run `./deploy.sh`. Changing it logs every device out. Without that line,

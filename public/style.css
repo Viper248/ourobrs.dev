@@ -60,8 +60,10 @@ footer .admin {
 main p a { color: var(--text); }
 
 /* admin pages (made by serve.py) */
-.login { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; text-align: left; }
-input, button {
+.form { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; text-align: left; }
+h2 { margin: 2rem 0 0.75rem; font-size: 1.1rem; }
+textarea { resize: vertical; }
+input, textarea, button {
   font: inherit;
   padding: 0.85rem;
   border-radius: 0.7rem;

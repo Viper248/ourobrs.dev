@@ -65,6 +65,19 @@ try:
     req(P, "POST", "/click", dict(me, **{"Ping-To": TIKTOK}), "PING")
     assert sum(saved(counts)["views"].values()) == 1 and sum(saved(counts)["clicks"][TIKTOK].values()) == 1  # admin not counted
 
+    s, h, page = req(P, "GET", "/")
+    assert "<h1>Ouroboros</h1>" in page and "the hideout<br>tag me" in page and h["Cache-Control"] == "public, max-age=300"
+    assert req(P, "POST", "/admin/profile", form, "name=x&bio=y")[0] == 403  # not logged in
+    edit = dict(me, **form)
+    s, _, body = req(P, "POST", "/admin/profile", edit, "name=Baker+%3Cb%3E&bio=line+one%0D%0Aline+two")
+    assert s == 200 and "Saved" in body
+    page = req(P, "GET", "/")[2]
+    assert "<h1>Baker &lt;b&gt;</h1>" in page and '<p class="bio">line one<br>line two</p>' in page  # escaped, one <br> per line
+    assert saved(os.path.join(os.path.dirname(counts), "profile.json")) == {"name": "Baker <b>", "bio": "line one\nline two"}
+    assert req(P, "POST", "/admin/profile", edit, "name=&bio=y")[0] == 400
+    assert req(P, "POST", "/admin/profile", edit, "name=x&bio=1%0A2%0A3%0A4%0A5")[0] == 400
+    assert "<h1>Baker &lt;b&gt;</h1>" in req(P, "GET", "/")[2]  # rejected edits change nothing
+
     forged = dict(PHONE, Cookie="admin=9999999999.deadbeef")
     assert 'type="password"' in req(P, "GET", "/admin", forged)[2]
 
@@ -73,7 +86,7 @@ try:
     assert req(P, "POST", "/admin", attacker, "password=test-pw")[0] == 429  # locked even with the right password
     assert req(P, "POST", "/admin", form, "password=test-pw")[0] == 303  # other IPs still fine
 
-    assert req(P, "POST", "/click", {"Content-Length": "5000"})[0] == 413
+    assert req(P, "POST", "/click", {"Content-Length": "9000"})[0] == 413
     assert req(P, "GET", "/", {"Host": "www.ourobrs.dev"})[1]["Location"] == "https://ourobrs.dev/"
     assert req(P, "GET", "/serve.py")[0] == 404
 finally:
