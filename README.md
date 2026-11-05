@@ -55,7 +55,7 @@ with days in US Eastern time, and lets you change the name and bio at the top of
 - **Not counted:** bots and link previews, your own visits while you're logged in, a phone reloading within
   5 minutes, and taps from Firefox and Brave, which turn off the browser feature (`ping`) that reports them.
 - **Privacy:** only daily totals are stored, in `/mnt/Seagate/ourobrs/data/counts.json`. There are no IPs, no
-  visitor cookies and no third parties. After 10 wrong passwords from one IP in 15 minutes, that IP can't log in
+  visitor cookies and no third parties. After 7 wrong passwords from one IP in 15 minutes, that IP can't log in
   for 15 minutes; failed-login IPs are kept in memory only.
 - **Reset the counts:** delete `data/counts.json` on the Blade, then `./deploy.sh`. Copy it somewhere first if
   you want to keep the history.

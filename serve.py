@@ -196,7 +196,7 @@ class Handler(SimpleHTTPRequestHandler):
             for k in [k for k, v in fails.items() if now - v[-1] > 900]:
                 del fails[k]
             recent = [t for t in fails.get(ip, []) if now - t < 900]
-            if len(recent) >= 10:
+            if len(recent) >= 7:
                 return self.send(429, login_page("Too many wrong tries. Wait 15 minutes."))
             if not hmac.compare_digest(password.encode(), PASSWORD.encode()):
                 fails[ip] = recent + [now]

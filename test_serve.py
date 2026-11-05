@@ -82,7 +82,7 @@ try:
     assert 'type="password"' in req(P, "GET", "/admin", forged)[2]
 
     attacker = dict(form, **{"CF-Connecting-IP": "203.0.113.9"})
-    assert [req(P, "POST", "/admin", attacker, "password=x")[0] for _ in range(11)] == [401] * 10 + [429]
+    assert [req(P, "POST", "/admin", attacker, "password=x")[0] for _ in range(8)] == [401] * 7 + [429]
     assert req(P, "POST", "/admin", attacker, "password=test-pw")[0] == 429  # locked even with the right password
     assert req(P, "POST", "/admin", form, "password=test-pw")[0] == 303  # other IPs still fine
 
